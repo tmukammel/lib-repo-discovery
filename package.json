@@ -1,0 +1,28 @@
+{
+	"name": "lib-repo-discovery",
+	"version": "1.0.0",
+	"description": "A lib to discover repositories across microservices",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"test": "jest",
+		"prepare": "npm run build",
+		"build": "rimraf ./dist && tsc",
+		"format": "prettier --write \"./index.ts\" \"./src/**/*.{ts,js,json}\"",
+		"lint": "eslint \"./index.ts\" \"./src/**/*.{js,ts}\" --fix"
+	},
+	"author": "Twaha Mukammel",
+	"license": "ISC",
+	"devDependencies": {
+		"@babel/core": "^7.26.0",
+		"@babel/preset-env": "^7.26.0",
+		"@babel/preset-typescript": "^7.26.0",
+		"@jest/globals": "^29.7.0",
+		"@typescript-eslint/eslint-plugin": "^8.16.0",
+		"babel-jest": "^29.7.0",
+		"eslint": "^8.31.0",
+		"jest": "^29.7.0",
+		"prettier": "^3.4.1"
+	}
+}
