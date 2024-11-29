@@ -8,9 +8,9 @@
 export interface IRepositoryInvoker {
 	/**
 	 * To get a single or a collection of specified model (M) from any package / service
-	 * @template T the type of the query
+	 * @template Q the type of the query
 	 * @template M the type of return model
-	 * @param {T} query
+	 * @param {Q} query
 	 * @param isCollection specifies if the query is to return more than one model (M)
 	 * @returns {M} a single model or an array of models of type M
 	 */
