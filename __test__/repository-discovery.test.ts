@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { describe, expect, test, beforeAll } from '@jest/globals';
 import { RepositoryDiscovery } from '../src/repository-discovery';
 import { IRepositoryInvoker } from '../src/types/repository-invoker.interface';
