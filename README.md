@@ -8,6 +8,10 @@ npm i --save https://github.com/tmukammel/lib-repo-discovery.git
 
 ## Usage
 
+### Overview
+
+![alt text](port-adapter.jpg)
+
 ### Step 01: Implement `IRepositoryInvoker` interface
 
 ```js
