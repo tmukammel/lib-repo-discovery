@@ -23,7 +23,7 @@ beforeAll(() => {
 });
 
 describe('lib repository discovery', () => {
-	test('creats a singleton instance is created', () => {
+	test('creats a singleton instance', () => {
 		const anotherReference: RepositoryDiscovery = RepositoryDiscovery.instance;
 		expect(repoDiscovery).toBe(anotherReference);
 	});
