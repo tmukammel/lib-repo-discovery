@@ -1,7 +1,7 @@
 /**
  * Common repository interface for foreign entities
  *
- * Because it is unwarthy to allow storage modification operations without a transaction
+ * Because it is unworthy to allow storage modification operations without a transaction
  * we have specific apis for to get and validate
  * otherwise we have to go through a transaction to do any modification operation
  */
