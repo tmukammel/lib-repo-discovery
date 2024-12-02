@@ -8,10 +8,11 @@
 	"scripts": {
 		"test": "jest",
 		"prepare": "npm run build",
-		"build": "tsc",
+		"build": "tsc --build",
 		"rebuild": "rm -rf ./dist && tsc",
 		"format": "prettier --write \"./index.ts\" \"./src/**/*.{ts,js,json}\"",
-		"lint": "eslint \"./index.ts\" \"./src/**/*.{js,ts}\" --fix"
+		"lint": "eslint \"./index.ts\" \"./src/**/*.{js,ts}\" --fix",
+		"clean": "rm -rf ./dist ./node_modules"
 	},
 	"author": "Twaha Mukammel",
 	"license": "ISC",
