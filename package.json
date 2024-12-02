@@ -8,7 +8,8 @@
 	"scripts": {
 		"test": "jest",
 		"prepare": "npm run build",
-		"build": "rimraf ./dist && tsc",
+		"build": "tsc",
+		"rebuild": "rm -rf ./dist && tsc",
 		"format": "prettier --write \"./index.ts\" \"./src/**/*.{ts,js,json}\"",
 		"lint": "eslint \"./index.ts\" \"./src/**/*.{js,ts}\" --fix"
 	},
