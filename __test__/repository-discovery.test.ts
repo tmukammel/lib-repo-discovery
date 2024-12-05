@@ -33,7 +33,7 @@ describe('lib repository discovery', () => {
 		expect(repoDiscovery.addToRepositoryInvokerRegistry('test-invoker', invoker)).toBeTruthy();
 	});
 
-	test('can not add repository invoker again to the registry', () => {
+	test('cannot add repository invoker again to the registry', () => {
 		expect(repoDiscovery.addToRepositoryInvokerRegistry('test-invoker', invoker)).toBeFalsy();
 	});
 
