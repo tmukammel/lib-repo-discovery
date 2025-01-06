@@ -8,23 +8,16 @@ npm i --save https://github.com/tmukammel/lib-repo-discovery.git
 
 ## Usage
 
-### Step 01: Implement `IRepositoryInvoker` interface
+![alt text](impl-repo-discovery.jpg)
 
-![alt text](port-adapter.jpg)
+### Step 01: Implement own counter declaration of `IRepositoryInvoker` interface
 
 ```js
-
-// Suppose RepositoryInvokerAdapter implements IRepositoryInvoker interface from infra layer
-// and imports and uses IAppRepoInvoker from application layer
-// forwards the interface method calls to IAppRepoInvoker implementar instance (e.g. UserService)
-// to invert the dependency toward the application layer
-// then ...
-
 // In the application layer
 
-// UserService.ts
+// BaseRepoDirectInvoker.ts
 
-export default class UserService implements IAppRepoInvoker {
+export default class BaseRepoDirectInvoker implements IAppRepoInvoker {
 
     // ...
 
@@ -32,16 +25,16 @@ export default class UserService implements IAppRepoInvoker {
     /************************************************************************************************/
 
     async get<JSON, Model>(query: JSON, isCollection?: boolean): Model | Model[] {
-        query = await userQueryParser.parse(query);
+        query = await queryParser.parse(query);
         return isCollection
-            ? this.userRepository.getModelCollection(query)
+            ? this.service.repository.getModelCollection(query)
             : query?.params?.hasOwnProperty('id')
-            ? this.userRepository.getModelById(query?.params?.id, 'include' in query ? query.include : null)
-            : this.userRepository.getModel(query);
+            ? this.service.repository.getModelById(query?.params?.id, 'include' in query ? query.include : null)
+            : this.service.repository.getModel(query);
     }
 
     async validate<JSON, Model>(query: JSON, validationLogic: (data: Model) => boolean): Promise<boolean> {
-        const res = await this.userRepository.getModelById(
+        const res = await this.service.repository.getModelById(
             query?.params?.id,
             'include' in query ? query.include : null
         );
@@ -58,12 +51,12 @@ export default class UserService implements IAppRepoInvoker {
 
         switch (method) {
             case AllowedMethods.post:
-                return this.userRepository.createModel(query, transaction);
+                return this.service.repository.createModel(query, transaction);
             case AllowedMethods.put:
             case AllowedMethods.patch:
-                return this.userRepository.updateModel(data, query, transaction);
+                return this.service.repository.updateModel(data, query, transaction);
             case AllowedMethods.delete:
-                return this.userRepository.deleteModel(query, transaction);
+                return this.service.repository.deleteModel(query, transaction);
         }
     }
     /************************************************************************************************/
@@ -77,7 +70,7 @@ export default class UserService implements IAppRepoInvoker {
 
 // App.ts
 
-// Likely registration of services as IRepositoryInvoker
+// Likely registration of BaseRepoDirectInvoker as IRepositoryInvoker
 
 repoDiscovery: RepositoryDiscovery = RepositoryDiscovery.instance()
 
@@ -85,13 +78,14 @@ forEach((ModelName) => {
     db: BaseORM = new Sequelize()
     model: IModel = new UserModel(db)
     repo: IRepository = new BaseRepo(model)
-    service: IRepositoryInvoker = new BaseService(repo)
+    service: IService = new BaseService(repo)
     controller: IController = BaseController(service)
     // ... add to router
 
-    // add service to RepositoryInvokerRegistry as IRepositoryInvoker
-    repositoryInvokerAdapter = new RepositoryInvokerAdapter(service)
-    repoDiscovery.addToRepositoryInvokerRegistry(repositoryInvokerAdapter)
+    // add BaseRepoDirectInvoker to RepositoryInvokerRegistry
+    repoInvoker: IAppRepoInvoker = new BaseRepoDirectInvoker(service)
+    repoInvokerAdapter: IRepositoryInvoker = new RepositoryInvokerAdapter(repoInvoker)
+    repoDiscovery.addToRepositoryInvokerRegistry(repoInvokerAdapter)
 })
 ```
 
@@ -100,8 +94,12 @@ forEach((ModelName) => {
 ```js
 // Likely code sample of ivoker discovery and invocation of repository
 
-// ...
-repoInvoker: IRepositoryInvoker = RepositoryDiscovery.instance().getRepositoryInvoker("Users")
+// some logic module...
+repoDiscovery: IAppRepoDiscovery
+func constructor(repoDiscoverer: IAppRepoDiscovery) {
+    this.repoDiscovery = repoDiscoverer
+}
+repoInvoker: IAppRepoInvoker = this.repoDiscovery.getRepositoryInvoker("Users")
 userData: UserModelStab = await repoInvoker.get({/*JSON query*/}, false)
 ```
 
