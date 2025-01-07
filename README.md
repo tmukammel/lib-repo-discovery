@@ -8,7 +8,7 @@ npm i --save https://github.com/tmukammel/lib-repo-discovery.git
 
 ## Usage
 
-![alt text](impl-repo-discovery.jpg)
+<div style="text-align:center"><img src="impl-repo-discovery.jpg" /></div>.
 
 ### Step 01: Implement own counter declaration of `IRepositoryInvoker` interface
 
