@@ -105,17 +105,17 @@ userData: UserModelStab = await repoInvoker.get({/*JSON query*/}, false)
 
 ## Specification
 
-1. The lib should allow resource repository discovery across monolyth, packages and microservices
+1. The lib should allow resource repository discovery across monolith, packages and microservices
 2. should be communication protocol agnostic (e.g: should support - HTTP, google RPC, socket, etc...)
 3. client should use common interface for any communication protocol
 
 ## Background
 
-lib-repo-discovery should enable a monolyth, monorepo packages, micro services to allow repository invocation across them without needing to import the specific repository. The lib-repo-discovery interfaces will specifically allow us to validate data, get data, run transactional updates on any repository across the system.
+lib-repo-discovery should enable a monolith, monorepo packages, micro services to allow repository invocation across them without needing to import the specific repository. The lib-repo-discovery interfaces will specifically allow us to validate data, get data, run transactional updates on any repository across the system.
 
 This lib should have three alternative working layers for communication
 
-1. method call within monolyth probably with multiple packages
+1. method call within monolith probably with multiple packages
 2. event driven communication between processes within same service (instance)
 3. over the network communication between services in microservices environment
    1. over the network communication can have different protocols
